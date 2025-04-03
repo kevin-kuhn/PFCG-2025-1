@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.5)
 project(CGCCHIB)
 
 # Define o padrão do C++
@@ -15,46 +15,78 @@ FetchContent_Declare(
   GIT_TAG 3.4  # Define a versão desejada da GLFW
 )
 
-# Faz o download e compila a GLFW
+# Configura o FetchContent para baixar a GLM automaticamente
+FetchContent_Declare(
+  glm
+  GIT_REPOSITORY https://github.com/g-truc/glm.git
+  GIT_TAG 0.9.9.8  # Define a versão desejada da GLM
+)
+
+# Faz o download e compila as bibliotecas
+FetchContent_Populate(glm)
+include_directories(${glm_SOURCE_DIR})
+
+# Configura o FetchContent para baixar a stb_image automaticamente
+FetchContent_Declare(
+  stb_image
+  GIT_REPOSITORY https://github.com/nothings/stb.git
+  GIT_TAG master
+)
+
+FetchContent_MakeAvailable(stb_image)
+
+FetchContent_Declare(
+  glfw
+  GIT_REPOSITORY https://github.com/glfw/glfw.git
+  GIT_TAG 3.4
+)
 FetchContent_MakeAvailable(glfw)
+
+set_property(TARGET glfw PROPERTY INTERFACE_INCLUDE_DIRECTORIES "${glfw_SOURCE_DIR}/include")
 
 # Adiciona as pastas de cabeçalhos
 include_directories(${CMAKE_SOURCE_DIR}/include)
-include_directories(${CMAKE_SOURCE_DIR}/include/glad)
 include_directories(${CMAKE_SOURCE_DIR}/common)
+include_directories(${CMAKE_SOURCE_DIR}/include/glad)
+include_directories(${glm_SOURCE_DIR})
+include_directories(${stb_image_SOURCE_DIR})
 
-# Lista de exercícios (por enquanto só tem o HelloTriangle)
+
+# Lista de exemplos/exercícios podem ser colocados aqui também
 set(EXERCISES
     Hello3D
+    TriangleTex
+   
 )
-
-find_package(OpenGL REQUIRED)
 
 add_compile_options(-Wno-pragmas)
 
-add_executable(EXERC
-    Mod1/Hello3D.cpp
-    Common/glad.c
-)
-
-# Inclui cabeçalhos
-target_include_directories(EXERC PRIVATE
-    "${CMAKE_SOURCE_DIR}/include"
-    "${CMAKE_SOURCE_DIR}/include/glad"
-    "${CMAKE_SOURCE_DIR}/common"
-)
-
-# Linka com a GLFW e o OpenGL encontrado
-target_link_libraries(EXERC PRIVATE
-    glfw
-    OpenGL::GL
-)
-
-# Para macOS, se precisar manualmente de frameworks do sistema:
-if (APPLE)
-    target_link_libraries(EXERC PRIVATE
-        "-framework Cocoa"
-        "-framework IOKit"
-        "-framework CoreVideo"
-    )
+# Define as bibliotecas para cada sistema operacional
+if(WIN32)
+    set(OPENGL_LIBS opengl32)
+elseif(APPLE)
+    find_library(OpenGL_LIBRARY OpenGL)
+    set(OPENGL_LIBS ${OpenGL_LIBRARY})
+else()
+    find_package(OpenGL REQUIRED)
+    set(OPENGL_LIBS ${OPENGL_gl_LIBRARY})
 endif()
+
+# Caminho esperado para a GLAD
+set(GLAD_C_FILE "${CMAKE_SOURCE_DIR}/common/glad.c")
+
+# Verifica se os arquivos da GLAD estão no lugar
+if (NOT EXISTS ${GLAD_C_FILE})
+    message(FATAL_ERROR "Arquivo glad.c não encontrado! Baixe a GLAD manualmente em https://glad.dav1d.de/ e coloque glad.h em include/glad/ e glad.c em common/")
+endif()
+
+# Cria os executáveis
+foreach(EXERCISE ${EXERCISES})
+    add_executable(${EXERCISE} src/${EXERCISE}.cpp ${GLAD_C_FILE})
+    target_include_directories(${EXERCISE} PRIVATE 
+        ${CMAKE_SOURCE_DIR}/include/glad 
+        ${glm_SOURCE_DIR} 
+        ${stb_image_SOURCE_DIR}
+    )
+    target_link_libraries(${EXERCISE} PRIVATE glfw ${OPENGL_LIBS})
+endforeach()
