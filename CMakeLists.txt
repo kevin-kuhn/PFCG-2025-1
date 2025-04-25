@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.10...3.28)
 project(CGCCHIB)
 
 # Define o padrão do C++
@@ -23,8 +23,7 @@ FetchContent_Declare(
 )
 
 # Faz o download e compila as bibliotecas
-FetchContent_Populate(glm)
-include_directories(${glm_SOURCE_DIR})
+FetchContent_MakeAvailable(glfw glm)
 
 # Configura o FetchContent para baixar a stb_image automaticamente
 FetchContent_Declare(
@@ -34,15 +33,6 @@ FetchContent_Declare(
 )
 
 FetchContent_MakeAvailable(stb_image)
-
-FetchContent_Declare(
-  glfw
-  GIT_REPOSITORY https://github.com/glfw/glfw.git
-  GIT_TAG 3.4
-)
-FetchContent_MakeAvailable(glfw)
-
-set_property(TARGET glfw PROPERTY INTERFACE_INCLUDE_DIRECTORIES "${glfw_SOURCE_DIR}/include")
 
 # Adiciona as pastas de cabeçalhos
 include_directories(${CMAKE_SOURCE_DIR}/include)
@@ -83,10 +73,6 @@ endif()
 # Cria os executáveis
 foreach(EXERCISE ${EXERCISES})
     add_executable(${EXERCISE} src/${EXERCISE}.cpp ${GLAD_C_FILE})
-    target_include_directories(${EXERCISE} PRIVATE 
-        ${CMAKE_SOURCE_DIR}/include/glad 
-        ${glm_SOURCE_DIR} 
-        ${stb_image_SOURCE_DIR}
-    )
-    target_link_libraries(${EXERCISE} PRIVATE glfw ${OPENGL_LIBS})
+    target_include_directories(${EXERCISE} PRIVATE ${CMAKE_SOURCE_DIR}/include/glad ${glm_SOURCE_DIR} ${stb_image_SOURCE_DIR})
+    target_link_libraries(${EXERCISE} glfw ${OPENGL_LIBS})
 endforeach()
