@@ -2,7 +2,5 @@
 <img src="/assets/hello3d.png" alt="" style="width:30%; height:auto;" align="middle">
 
 ## MOD 2
-<video width="320" height="240" controls>
-  <source src="/assets/cube3d.mp4" type="video/mp4">
-</video>
+[clique aqui para ver o vídeo](/assets/cube3d.mp4)
 <img src="/assets/cube3d.png" alt="" style="width:30%; height:auto;" align="middle">
