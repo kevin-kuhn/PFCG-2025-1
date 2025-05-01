@@ -46,7 +46,7 @@ include_directories(${stb_image_SOURCE_DIR})
 set(EXERCISES
     Hello3D
     TriangleTex
-   
+    Cube3D
 )
 
 add_compile_options(-Wno-pragmas)
