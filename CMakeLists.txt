@@ -47,6 +47,7 @@ set(EXERCISES
     Hello3D
     TriangleTex
     Cube3D
+    Cube3DTex
 )
 
 add_compile_options(-Wno-pragmas)
