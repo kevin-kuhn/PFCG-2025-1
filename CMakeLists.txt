@@ -48,6 +48,7 @@ set(EXERCISES
     TriangleTex
     Cube3D
     Cube3DTex
+    Phong
 )
 
 add_compile_options(-Wno-pragmas)

@@ -7,3 +7,7 @@
 
 ## MOD 3
 <img src="/assets/cube3DTex.png" alt="" style="width:30%; height:auto;" align="middle">
+
+## MOD 4
+[clique aqui para ver o vídeo](/assets/cubePhongTex.mp4)<br>
+<img src="/assets/cubePhongTex.png" alt="" style="width:30%; height:auto;" align="middle">
