@@ -49,6 +49,7 @@ set(EXERCISES
     Cube3D
     Cube3DTex
     Phong
+    PhongCamera
 )
 
 add_compile_options(-Wno-pragmas)
