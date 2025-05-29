@@ -15,3 +15,7 @@
 ## MOD 5
 [clique aqui para ver o vídeo](/assets/phongCamera.mp4)<br>
 <img src="/assets/phongCamera.png" alt="" style="width:30%; height:auto;" align="middle">
+
+## MOD 6
+[clique aqui para ver o vídeo](/assets/cameraTrajetoria.mp4)<br>
+<img src="/assets/cameraTrajetoria.png" alt="" style="width:30%; height:auto;" align="middle">

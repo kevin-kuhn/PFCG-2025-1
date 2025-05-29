@@ -50,6 +50,7 @@ set(EXERCISES
     Cube3DTex
     Phong
     PhongCamera
+    CameraTrajetoria
 )
 
 add_compile_options(-Wno-pragmas)
