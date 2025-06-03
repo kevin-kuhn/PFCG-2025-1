@@ -51,6 +51,7 @@ set(EXERCISES
     Phong
     PhongCamera
     CameraTrajetoria
+    Vivencial2
 )
 
 add_compile_options(-Wno-pragmas)
