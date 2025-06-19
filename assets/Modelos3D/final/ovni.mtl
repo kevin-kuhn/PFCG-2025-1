@@ -1,5 +1,5 @@
 newmtl ovni_mat
-map_Kd ovni.jpg
+map_Kd ovni.png
 Ka 0.2 0.2 0.2
 Kd 0.6 0.6 1.0
 Ks 0.3 0.3 0.3
